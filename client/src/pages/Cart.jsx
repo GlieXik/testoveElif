@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Paper, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import CartItem from "../components/CartItem";
 import { useSelector } from "react-redux";
 import { selectAllCart } from "../store/selectors/cartSelectors";
@@ -22,9 +22,6 @@ const Cart = () => {
           <Typography variant="h5">
             Total Price: {cartData.totalPrice}
           </Typography>
-          <Button variant="outlined" size="large">
-            Submit
-          </Button>
         </Box>
       </Grid>
     </Grid>

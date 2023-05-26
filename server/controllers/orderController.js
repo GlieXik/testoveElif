@@ -3,13 +3,16 @@ const Order = require("../models/order.model");
 
 const create = async (req, res, next) => {
   try {
-    const { clientName, phone, email, address, items } = req.body;
+    const { name, phone, email, address, items, totalPrice, totalQuantity } =
+      req.body;
     const order = await Order.create({
-      clientName,
+      name,
       phone,
       email,
       address,
       items,
+      totalPrice,
+      totalQuantity,
     });
     return res.json(order);
   } catch (error) {

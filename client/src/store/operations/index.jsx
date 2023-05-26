@@ -9,7 +9,19 @@ export const api = createApi({
     getItems: build.query({
       query: () => "item",
     }),
+    addNewOrder: build.mutation({
+      query: (payload) => ({
+        url: "/order/addOrder",
+        method: "POST",
+        body: payload,
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }),
+      invalidatesTags: ["Order"],
+    }),
   }),
 });
 
-export const { useGetTypesQuery, useGetItemsQuery } = api;
+export const { useGetTypesQuery, useGetItemsQuery, useAddNewOrderMutation } =
+  api;

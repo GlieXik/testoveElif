@@ -1,11 +1,32 @@
-import { Box, Input, TextField } from "@mui/material";
+import { Box, Button, Input, TextField } from "@mui/material";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Map from "./Map";
+import { useSelector } from "react-redux";
+import { selectAllCart } from "../store/selectors/cartSelectors";
+import { useAddNewOrderMutation } from "../store/operations";
 
 const Form = () => {
   const { control, handleSubmit } = useForm({});
-  const onSubmit = (data) => console.log(data);
+  const cart = useSelector(selectAllCart);
+  const [addNewOrder, { isLoading, isError, error }] = useAddNewOrderMutation();
+  const onSubmit = (data) => {
+    addNewOrder({
+      ...data,
+      items: cart.items,
+      totalPrice: cart.totalPrice,
+      totalQuantity: cart.totalQuantity,
+    })
+      .unwrap()
+      .then((data) => {
+        // Handle successful mutation
+        console.log("Order added successfully:", data);
+      })
+      .catch((error) => {
+        // Handle mutation error
+        console.log("Error occurred while adding order:", error);
+      });
+  };
   const [address, setAddress] = useState("");
 
   const handleLocationChange = (selectedAddress) => {
@@ -60,14 +81,14 @@ const Form = () => {
                 id="Address-basic"
                 label="Address"
                 variant="standard"
-                onChange={(e) => setAddress(e.target.value)}
                 {...field}
               />
             )}
           />
         </Box>
-
-        <input type="submit" />
+        <Button variant="outlined" size="large" type="submit">
+          Submit
+        </Button>
       </form>
     </>
   );
